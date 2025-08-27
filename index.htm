@@ -49,11 +49,10 @@
         .hero-content .tagline {
             font-size: 1.3rem;
             color: #b0b0b0;
-            margin-bottom: 30px; /* Adjusted margin */
+            margin-bottom: 30px;
             font-weight: 400;
         }
         
-        /* MODIFICATION: Added styles for the new social proof section */
         .social-proof {
             display: flex;
             justify-content: center;
@@ -61,7 +60,7 @@
             gap: 20px;
             margin-bottom: 40px;
             color: #b0b0b0;
-            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+            flex-wrap: wrap;
         }
 
         .proof-item {
@@ -109,6 +108,37 @@
         .download-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(29, 155, 240, 0.5);
+        }
+
+        /* NEW: Screenshots Section Styles */
+        .screenshots {
+            padding: 80px 0;
+            background: #111111;
+        }
+
+        .screenshots h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #ffffff;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .screenshots-grid img {
+            width: 100%;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshots-grid img:hover {
+            transform: scale(1.03);
         }
 
         /* Features Section */
@@ -174,7 +204,7 @@
 
         /* Mobile Optimizations */
         @media (max-width: 768px) {
-            .hero-content h1 {
+            .hero-content h1, .screenshots h2 {
                 font-size: 2.5rem;
             }
 
@@ -222,6 +252,18 @@
         </div>
     </section>
 
+    <section class="screenshots">
+        <div class="container">
+            <h2>Screenshots</h2>
+            <div class="screenshots-grid">
+                <img src="https://via.placeholder.com/280x560.png/0A0A0A/FFFFFF?text=Screenshot+1" alt="Nix Swahili App Screenshot 1">
+                <img src="https://via.placeholder.com/280x560.png/0A0A0A/FFFFFF?text=Screenshot+2" alt="Nix Swahili App Screenshot 2">
+                <img src="https://via.placeholder.com/280x560.png/0A0A0A/FFFFFF?text=Screenshot+3" alt="Nix Swahili App Screenshot 3">
+                <img src="https://via.placeholder.com/280x560.png/0A0A0A/FFFFFF?text=Screenshot+4" alt="Nix Swahili App Screenshot 4">
+            </div>
+        </div>
+    </section>
+
     <section class="features">
         <div class="container">
             <div class="features-grid">
@@ -255,9 +297,5 @@
         </div>
     </footer>
     
-    <script>
-        // No JavaScript changes needed for this update.
-        // The download button is a standard HTML link.
-    </script>
 </body>
 </html>
