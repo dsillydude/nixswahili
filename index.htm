@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Nix Swahili - Stream Live TV, Sports & Movies</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- ✅ Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
   <style>
     * {
       margin: 0;
@@ -135,13 +132,20 @@
       color: #ffffff;
     }
 
-    /* === Swiper Screenshots === */
+    /* --- Swiper Screenshots --- */
     .swiper {
       padding: 20px 0;
     }
 
+    .swiper-slide {
+      width: auto;
+      display: flex;
+      justify-content: center;
+    }
+
     .swiper-slide img {
-      width: 260px;
+      width: 320px; /* larger size */
+      max-width: 100%;
       height: auto;
       border-radius: 15px;
       border: 2px solid rgba(255, 255, 255, 0.1);
@@ -245,6 +249,10 @@
       .screenshots-title {
         font-size: 1.8rem;
       }
+
+      .swiper-slide img {
+        width: 90vw; /* expand on small screens */
+      }
     }
   </style>
 </head>
@@ -252,7 +260,6 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-
         <div class="title-container">
           <img src="https://i.postimg.cc/hvqCC0pD/20250828-1527-Futuristic-Streaming-App-Icon-remix-01k3sckjvfe1r82p5ye68w01sp.png" class="app-logo" alt="Nix Swahili App Logo">
           <h1>Nix Swahili</h1>
@@ -278,8 +285,7 @@
         <a href="https://nixswahili.netlify.app/nixswahili.apk" class="download-btn" download>Download Now</a>
 
         <h2 class="screenshots-title">Screenshots</h2>
-
-        <!-- ✅ Swiper Screenshots -->
+        <!-- Swiper Screenshots -->
         <div class="swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -292,8 +298,7 @@
               <img src="https://i.postimg.cc/nzd8gg9F/20250827-1101-Nix-Swahili-Sports-Mockup-remix-01k3paya2zfz4tg0gnf618swy4.png" alt="Nix Swahili Sports Channels">
             </div>
           </div>
-
-          <!-- ✅ Controls -->
+          <!-- Navigation + Pagination -->
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-pagination"></div>
@@ -335,15 +340,15 @@
     </div>
   </footer>
 
-  <!-- ✅ Swiper JS -->
+  <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     const swiper = new Swiper('.swiper', {
       slidesPerView: 'auto',
-      spaceBetween: 10,   // closer spacing
+      spaceBetween: 5,
       grabCursor: true,
-      freeMode: false,    // snap instead of drifting
       centeredSlides: false,
+      freeMode: false,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
