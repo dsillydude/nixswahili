@@ -47,8 +47,8 @@
         }
 
         .app-logo {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 22px; 
             object-fit: cover;
         }
@@ -139,8 +139,10 @@
             display: flex;
             overflow-x: auto; /* This enables horizontal scrolling */
             gap: 20px;
-            padding: 20px 0;
-            /* For smooth scrolling on touch devices */
+            /* New: Pulls the scroll area to the screen edges */
+            margin: 0 -20px;
+            /* New: Adds padding back so content isn't flush with the edge */
+            padding: 20px;
             -webkit-overflow-scrolling: touch; 
             /* Hides the scrollbar for a cleaner look */
             scrollbar-width: none; /* Firefox */
@@ -224,8 +226,8 @@
             }
 
             .app-logo {
-                width: 80px;
-                height: 80px;
+                width: 90px;
+                height: 90px;
             }
 
             .hero-content .tagline {
@@ -333,3 +335,4 @@
     
 </body>
 </html>
+
