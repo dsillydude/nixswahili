@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <title>Nix Swahili - Stream Live TV, Sports & Movies</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -58,8 +60,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            /* ADDED: Prevents text from creating overflow */
-            word-break: break-word;
+            word-break: break-word; /* Prevents text from creating overflow */
         }
 
         .hero-content .tagline {
@@ -135,9 +136,8 @@
 
         .screenshots-grid {
             display: grid;
-            /* CHANGED: Made the min value smaller for better fit */
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px; /* Adjusted gap */
+            gap: 20px;
             max-width: 1100px; 
             margin: 0 auto;
         }
@@ -211,7 +211,6 @@
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             .hero-content h1 {
-                /* CHANGED: Reduced font size significantly for tablets and large phones */
                 font-size: 2.8rem; 
             }
 
@@ -231,19 +230,18 @@
             }
         }
         
-        /* ADDED: New media query for very small mobile screens */
+        /* New media query for very small mobile screens */
         @media (max-width: 480px) {
             .hero-content h1 {
-                /* CHANGED: Further reduced font size for small phones */
                 font-size: 2.2rem; 
             }
 
             .title-container {
-                gap: 15px; /* Smaller gap on small screens */
+                gap: 15px;
             }
 
             .social-proof {
-                gap: 15px; /* Reduce gap to prevent wrapping if possible */
+                gap: 15px;
             }
 
             .screenshots-title {
