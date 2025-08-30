@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Nix Swahili - Stream Live TV, Sports & Movies</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #0a0a0a;
       color: #e5e5e5;
       line-height: 1.6;
-      overflow-x: hidden; /* Prevents unwanted page-level horizontal scroll */
+      overflow-x: hidden; /* lock page-wide horizontal scroll */
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
     /* Hero Section */
     .hero {
@@ -44,12 +38,7 @@
       flex-wrap: wrap;
     }
 
-    .app-logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 22px;
-      object-fit: cover;
-    }
+    .app-logo { width: 120px; height: 120px; border-radius: 22px; object-fit: cover; }
 
     .hero-content h1 {
       font-size: 3.5rem;
@@ -67,7 +56,7 @@
       margin-bottom: 30px;
       font-weight: 400;
     }
-    
+
     .social-proof {
       display: flex;
       justify-content: center;
@@ -78,27 +67,10 @@
       flex-wrap: wrap;
     }
 
-    .proof-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    
-    .proof-item .value {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #ffffff;
-    }
-
-    .proof-item .label {
-      font-size: 0.9rem;
-    }
-    
-    .stars {
-      color: #1d9bf0;
-    }
-    
+    .proof-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .proof-item .value { font-size: 1.1rem; font-weight: 600; color: #ffffff; }
+    .proof-item .label { font-size: 0.9rem; }
+    .stars { color: #1d9bf0; }
     .age-rating {
       border: 1px solid #b0b0b0;
       padding: 2px 8px;
@@ -119,11 +91,7 @@
       box-shadow: 0 10px 30px rgba(29, 155, 240, 0.3);
       transition: all 0.3s ease;
     }
-
-    .download-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(29, 155, 240, 0.5);
-    }
+    .download-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(29, 155, 240, 0.5); }
 
     .screenshots-title {
       margin: 60px 0 20px 0;
@@ -132,43 +100,45 @@
       color: #ffffff;
     }
 
-    /* --- FIXED HORIZONTAL SCROLL STYLES --- */
+    /* Screenshots: horizontal-only scrolling */
+    .screenshots-outer {
+      /* Pull to screen edges visually while keeping container layout clean */
+      margin: 0 -20px;
+    }
+
     .screenshots-grid {
       display: flex;
-      overflow-x: auto !important;  /* ✅ Force horizontal scroll allowed */
       gap: 20px;
-      margin: 0 -20px;
-      padding: 20px 10px;
-      -webkit-overflow-scrolling: touch; 
-      scrollbar-width: none;
-
-      scroll-snap-type: x mandatory; /* Snap horizontally */
-      scroll-behavior: smooth;       /* Smooth scroll */
+      padding: 20px 14px;           /* small side padding so first/last shot aren't flush */
+      overflow-x: auto !important;  /* <-- force-enable horizontal scroll here only */
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch; /* iOS momentum */
+      scrollbar-width: none;        /* Firefox hide scrollbar */
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      touch-action: pan-x;          /* hint: this area pans horizontally */
+      overscroll-behavior-x: contain; /* keep gestures inside this scroller */
+      cursor: grab;
+      scroll-padding-left: 14px;    /* nice snap with the left padding */
     }
-    .screenshots-grid::-webkit-scrollbar {
-      display: none; /* Hide scrollbar */
-    }
+    .screenshots-grid:active { cursor: grabbing; }
+    .screenshots-grid::-webkit-scrollbar { display: none; } /* WebKit hide scrollbar */
 
     .screenshots-grid img {
       width: 260px;
       height: auto;
-      flex-shrink: 0;
+      flex: 0 0 auto;               /* don't shrink */
       border-radius: 15px;
       border: 2px solid rgba(255, 255, 255, 0.1);
       transition: transform 0.3s ease;
-
-      scroll-snap-align: start; /* Snap image into view */
+      scroll-snap-align: start;
+      -webkit-user-drag: none;      /* prevent ghost-drag image */
+      user-select: none;
     }
-    
-    .screenshots-grid img:hover {
-      transform: scale(1.03);
-    }
+    .screenshots-grid img:hover { transform: scale(1.03); }
 
     /* Features Section */
-    .features {
-      padding: 80px 0;
-      background: linear-gradient(180deg, #0a0a0a 0%, #111111 100%);
-    }
+    .features { padding: 80px 0; background: linear-gradient(180deg, #0a0a0a 0%, #111111 100%); }
 
     .features-grid {
       display: grid;
@@ -186,25 +156,10 @@
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
     }
-    
-    .feature-card .emoji {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      display: block;
-    }
 
-    .feature-card h3 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 10px;
-    }
-
-    .feature-card p {
-      color: #b0b0b0;
-      font-size: 1rem;
-      line-height: 1.5;
-    }
+    .feature-card .emoji { font-size: 3rem; margin-bottom: 20px; display: block; }
+    .feature-card h3 { font-size: 1.3rem; font-weight: 600; color: #ffffff; margin-bottom: 10px; }
+    .feature-card p { color: #b0b0b0; font-size: 1rem; line-height: 1.5; }
 
     /* Footer */
     .footer {
@@ -213,50 +168,20 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       background: #050505;
     }
+    .footer p { color: #808080; font-size: 0.9rem; }
 
-    .footer p {
-      color: #808080;
-      font-size: 0.9rem;
-    }
-
-    /* Mobile Optimizations */
+    /* Mobile */
     @media (max-width: 768px) {
-      .hero-content h1 {
-        font-size: 2.8rem;
-      }
-
-      .app-logo {
-        width: 90px;
-        height: 90px;
-      }
-
-      .hero-content .tagline {
-        font-size: 1.1rem;
-        padding: 0 10px;
-      }
-      
-      .download-btn {
-        padding: 16px 35px;
-        font-size: 1.1rem;
-      }
+      .hero-content h1 { font-size: 2.8rem; }
+      .app-logo { width: 90px; height: 90px; }
+      .hero-content .tagline { font-size: 1.1rem; padding: 0 10px; }
+      .download-btn { padding: 16px 35px; font-size: 1.1rem; }
     }
-    
     @media (max-width: 480px) {
-      .hero-content h1 {
-        font-size: 2.2rem;
-      }
-
-      .title-container {
-        gap: 15px;
-      }
-
-      .social-proof {
-        gap: 15px;
-      }
-
-      .screenshots-title {
-        font-size: 1.8rem;
-      }
+      .hero-content h1 { font-size: 2.2rem; }
+      .title-container { gap: 15px; }
+      .social-proof { gap: 15px; }
+      .screenshots-title { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -264,14 +189,13 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-
         <div class="title-container">
-          <img src="https://i.postimg.cc/hvqCC0pD/20250828-1527-Futuristic-Streaming-App-Icon-remix-01k3sckjvfe1r82p5ye68w01sp.png" class="app-logo" alt="Nix Swahili App Logo">
+          <img src="https://i.postimg.cc/hvqCC0pD/20250828-1527-Futuristic-Streaming-App-Icon-remix-01k3sckjvfe1r82p5ye68w01sp.png" class="app-logo" alt="Nix Swahili App Logo" />
           <h1>Nix Swahili</h1>
         </div>
 
         <p class="tagline">Stream 1000+ Live Channels • Sports • News • Movies</p>
-        
+
         <div class="social-proof">
           <div class="proof-item">
             <span class="value stars">★★★★☆</span>
@@ -286,15 +210,18 @@
             <span class="label">Age Rating</span>
           </div>
         </div>
-        
+
         <a href="https://nixswahili.netlify.app/nixswahili.apk" class="download-btn" download>Download Now</a>
-        
+
         <h2 class="screenshots-title">Screenshots</h2>
-        <!-- Screenshots Section -->
-        <div class="screenshots-grid">
-          <img src="https://i.postimg.cc/HWQvrfkV/20250827-1131-Nix-Swahili-App-Mockup-remix-01k3pckfa0fqasmmctf0amfsaq.png" alt="Nix Swahili App Interface">
-          <img src="https://i.postimg.cc/L5BxGZbz/20250827-1122-Sports-Streaming-Mockup-remix-01k3pc4bcyf3m9brwx09x3h9rj.png" alt="Nix Swahili Live Sports">
-          <img src="https://i.postimg.cc/nzd8gg9F/20250827-1101-Nix-Swahili-Sports-Mockup-remix-01k3paya2zfz4tg0gnf618swy4.png" alt="Nix Swahili Sports Channels">
+
+        <!-- Screenshots: only this section can scroll horizontally -->
+        <div class="screenshots-outer">
+          <div class="screenshots-grid" id="shots">
+            <img src="https://i.postimg.cc/HWQvrfkV/20250827-1131-Nix-Swahili-App-Mockup-remix-01k3pckfa0fqasmmctf0amfsaq.png" alt="Nix Swahili App Interface" />
+            <img src="https://i.postimg.cc/L5BxGZbz/20250827-1122-Sports-Streaming-Mockup-remix-01k3pc4bcyf3m9brwx09x3h9rj.png" alt="Nix Swahili Live Sports" />
+            <img src="https://i.postimg.cc/nzd8gg9F/20250827-1101-Nix-Swahili-Sports-Mockup-remix-01k3paya2zfz4tg0gnf618swy4.png" alt="Nix Swahili Sports Channels" />
+          </div>
         </div>
       </div>
     </div>
@@ -332,5 +259,47 @@
       <p>© 2025 Nix Swahili Corp • All Rights Reserved</p>
     </div>
   </footer>
+
+  <!-- Tiny drag-to-scroll helper for extra reliability across browsers -->
+  <script>
+    (function () {
+      const scroller = document.getElementById('shots');
+      if (!scroller) return;
+
+      let isDown = false;
+      let startX = 0;
+      let startScroll = 0;
+
+      const start = (e) => {
+        isDown = true;
+        scroller.classList.add('dragging');
+        startX = (e.touches ? e.touches[0].pageX : e.pageX);
+        startScroll = scroller.scrollLeft;
+      };
+
+      const move = (e) => {
+        if (!isDown) return;
+        // prevent default so the page doesn't try to intercept the gesture
+        if (e.cancelable) e.preventDefault();
+        const x = (e.touches ? e.touches[0].pageX : e.pageX);
+        const walk = startX - x;
+        scroller.scrollLeft = startScroll + walk;
+      };
+
+      const end = () => {
+        isDown = false;
+        scroller.classList.remove('dragging');
+      };
+
+      scroller.addEventListener('mousedown', start);
+      scroller.addEventListener('mousemove', move);
+      scroller.addEventListener('mouseleave', end);
+      scroller.addEventListener('mouseup', end);
+
+      scroller.addEventListener('touchstart', start, { passive: true });
+      scroller.addEventListener('touchmove', move, { passive: false });
+      scroller.addEventListener('touchend', end);
+    })();
+  </script>
 </body>
 </html>
