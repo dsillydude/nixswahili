@@ -11,10 +11,25 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --bg: #0a0a0a;
+      --bg-soft: #111;
+      --text: #e5e5e5;
+      --muted: #b0b0b0;
+      --line: rgba(255,255,255,0.1);
+      --accent: #1d9bf0;
+      --accent-2: #4cafef;
+    }
+
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: #0a0a0a;
-      color: #e5e5e5;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
@@ -22,6 +37,119 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
+    }
+
+    /* REDIRECT SPLASH */
+    .redirect-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center, rgba(29,155,240,0.18) 0%, rgba(29,155,240,0.06) 20%, rgba(10,10,10,0.96) 55%, rgba(5,5,5,1) 100%),
+        linear-gradient(180deg, #09111d, #050505);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    .redirect-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .redirect-box {
+      width: min(92vw, 420px);
+      text-align: center;
+      padding: 28px 24px;
+    }
+
+    .redirect-logo {
+      width: 86px;
+      height: 86px;
+      border-radius: 22px;
+      display: block;
+      margin: 0 auto 18px;
+      box-shadow: 0 20px 60px rgba(29,155,240,0.18);
+    }
+
+    .redirect-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .redirect-subtitle {
+      color: #9ca3af;
+      font-size: 1rem;
+      margin-bottom: 26px;
+      letter-spacing: 0.02em;
+    }
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.12);
+      border-top-color: var(--accent);
+      animation: spin 0.9s linear infinite;
+    }
+
+    .redirect-text {
+      color: #c9d4df;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .redirect-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .redirect-btn,
+    .redirect-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    .redirect-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(29, 155, 240, 0.25);
+    }
+
+    .redirect-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .redirect-link {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #d1d5db;
+    }
+
+    .redirect-note {
+      color: #7f8b96;
+      font-size: 0.88rem;
+      margin-top: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* HERO */
@@ -57,7 +185,7 @@
 
     .tagline {
       font-size: 1.3rem;
-      color: #b0b0b0;
+      color: var(--muted);
       margin-bottom: 30px;
     }
 
@@ -80,19 +208,18 @@
       color: #ffffff;
     }
 
-    .stars { color: #1d9bf0; }
+    .stars { color: var(--accent); }
 
     .age-rating {
-      border: 1px solid #b0b0b0;
+      border: 1px solid var(--muted);
       padding: 2px 8px;
       border-radius: 4px;
       font-size: 0.9rem;
     }
 
-    /* DOWNLOAD BUTTON (UNCHANGED STYLE) */
     .download-btn {
       display: inline-block;
-      background: linear-gradient(135deg, #1d9bf0, #4cafef);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       color: white;
       text-decoration: none;
       padding: 18px 40px;
@@ -114,7 +241,6 @@
       font-weight: 600;
     }
 
-    /* SWIPER */
     .swiper { padding: 20px 0; }
 
     .swiper-slide {
@@ -162,10 +288,9 @@
     }
 
     .feature-card p {
-      color: #b0b0b0;
+      color: var(--muted);
     }
 
-    /* FOOTER */
     footer {
       padding: 40px 0;
       text-align: center;
@@ -175,113 +300,221 @@
       font-size: 0.9rem;
     }
 
-    /* MOBILE */
     @media (max-width: 768px) {
       .hero-content h1 { font-size: 2.8rem; }
       .app-logo { width: 90px; height: 90px; }
       .swiper-slide img { width: 90vw; }
+
+      .redirect-title {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<section class="hero">
-  <div class="container">
-    <div class="hero-content">
+  <!-- SMART REDIRECT SPLASH -->
+  <div class="redirect-overlay" id="redirectOverlay">
+    <div class="redirect-box">
+      <img
+        src="https://i.postimg.cc/hvqCC0pD/20250828-1527-Futuristic-Streaming-App-Icon-remix-01k3sckjvfe1r82p5ye68w01sp.png"
+        alt="Nix Swahili Logo"
+        class="redirect-logo"
+      >
 
-      <div class="title-container">
-        <img src="https://i.postimg.cc/hvqCC0pD/20250828-1527-Futuristic-Streaming-App-Icon-remix-01k3sckjvfe1r82p5ye68w01sp.png"
-             class="app-logo"
-             alt="Nix Swahili App Logo">
-        <h1>Nix Swahili</h1>
+      <h2 class="redirect-title">Nix Swahili</h2>
+      <p class="redirect-subtitle">LIVE TV • SPORTS • MOVIES</p>
+
+      <div class="loader"></div>
+      <p class="redirect-text" id="redirectText">Redirecting...</p>
+
+      <div class="redirect-actions">
+        <a
+          id="manualStoreBtn"
+          class="redirect-btn"
+          href="https://play.google.com/store/apps/details?id=com.nixswahili.app"
+          target="_blank"
+          rel="noopener"
+        >
+          Open Google Play
+        </a>
+
+        <a href="#main-content" class="redirect-link" id="stayOnSiteBtn">
+          Stay on website
+        </a>
       </div>
 
-      <p class="tagline">Stream 1000+ Live Channels • Sports • News • Movies</p>
-
-      <div class="social-proof">
-        <div class="proof-item">
-          <span class="value stars">★★★★☆</span>
-          <span>1.2M reviews</span>
-        </div>
-        <div class="proof-item">
-          <span class="value">10M+</span>
-          <span>downloads</span>
-        </div>
-        <div class="proof-item">
-          <span class="age-rating">Rated 3+</span>
-          <span>Age Rating</span>
-        </div>
-      </div>
-
-      <!-- ORIGINAL DOWNLOAD BUTTON → PLAY STORE -->
-      <a href="https://play.google.com/store/apps/details?id=com.nixswahili.app"
-         class="download-btn"
-         target="_blank"
-         rel="noopener">
-        Download Now
-      </a>
-
-      <h2 class="screenshots-title">Screenshots</h2>
-
-      <div class="swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="https://i.postimg.cc/HWQvrfkV/20250827-1131-Nix-Swahili-App-Mockup-remix-01k3pckfa0fqasmmctf0amfsaq.png">
-          </div>
-          <div class="swiper-slide">
-            <img src="https://i.postimg.cc/L5BxGZbz/20250827-1122-Sports-Streaming-Mockup-remix-01k3pc4bcyf3m9brwx09x3h9rj.png">
-          </div>
-          <div class="swiper-slide">
-            <img src="https://i.postimg.cc/nzd8gg9F/20250827-1101-Nix-Swahili-Sports-Mockup-remix-01k3paya2zfz4tg0gnf618swy4.png">
-          </div>
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>
-
+      <p class="redirect-note">
+        If the store does not open automatically, tap the button above.
+      </p>
     </div>
   </div>
-</section>
 
-<section class="features">
-  <div class="container">
-    <div class="features-grid">
-      <div class="feature-card">
-        <span>📺</span>
-        <h3>6000+ Live TV Channels</h3>
-        <p>Access thousands of live TV channels worldwide.</p>
-      </div>
-      <div class="feature-card">
-        <span>⚽</span>
-        <h3>Sports & News</h3>
-        <p>Watch live sports, music, and breaking news.</p>
-      </div>
-      <div class="feature-card">
-        <span>🎬</span>
-        <h3>Movies & Shows</h3>
-        <p>Enjoy premium entertainment on demand.</p>
-      </div>
-      <div class="feature-card">
-        <span>✨</span>
-        <h3>Easy to Use</h3>
-        <p>Simple, fast, and optimized for Android.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <main id="main-content">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
 
-<footer>
-  © 2025 Nix Swahili Corp • Download on Google Play
-</footer>
+          <div class="title-container">
+            <img src="https://i.postimg.cc/hvqCC0pD/20250828-1527-Futuristic-Streaming-App-Icon-remix-01k3sckjvfe1r82p5ye68w01sp.png"
+                 class="app-logo"
+                 alt="Nix Swahili App Logo">
+            <h1>Nix Swahili</h1>
+          </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  new Swiper('.swiper', {
-    slidesPerView: 'auto',
-    spaceBetween: 10,
-    pagination: { el: '.swiper-pagination', clickable: true }
-  });
-</script>
+          <p class="tagline">Stream 1000+ Live Channels • Sports • News • Movies</p>
+
+          <div class="social-proof">
+            <div class="proof-item">
+              <span class="value stars">★★★★☆</span>
+              <span>1.2M reviews</span>
+            </div>
+            <div class="proof-item">
+              <span class="value">10M+</span>
+              <span>downloads</span>
+            </div>
+            <div class="proof-item">
+              <span class="age-rating">Rated 3+</span>
+              <span>Age Rating</span>
+            </div>
+          </div>
+
+          <a href="https://play.google.com/store/apps/details?id=com.nixswahili.app"
+             class="download-btn"
+             target="_blank"
+             rel="noopener">
+            Download Now
+          </a>
+
+          <h2 class="screenshots-title">Screenshots</h2>
+
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="https://i.postimg.cc/HWQvrfkV/20250827-1131-Nix-Swahili-App-Mockup-remix-01k3pckfa0fqasmmctf0amfsaq.png" alt="Screenshot 1">
+              </div>
+              <div class="swiper-slide">
+                <img src="https://i.postimg.cc/L5BxGZbz/20250827-1122-Sports-Streaming-Mockup-remix-01k3pc4bcyf3m9brwx09x3h9rj.png" alt="Screenshot 2">
+              </div>
+              <div class="swiper-slide">
+                <img src="https://i.postimg.cc/nzd8gg9F/20250827-1101-Nix-Swahili-Sports-Mockup-remix-01k3paya2zfz4tg0gnf618swy4.png" alt="Screenshot 3">
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-card">
+            <span>📺</span>
+            <h3>6000+ Live TV Channels</h3>
+            <p>Access thousands of live TV channels worldwide.</p>
+          </div>
+          <div class="feature-card">
+            <span>⚽</span>
+            <h3>Sports & News</h3>
+            <p>Watch live sports, music, and breaking news.</p>
+          </div>
+          <div class="feature-card">
+            <span>🎬</span>
+            <h3>Movies & Shows</h3>
+            <p>Enjoy premium entertainment on demand.</p>
+          </div>
+          <div class="feature-card">
+            <span>✨</span>
+            <h3>Easy to Use</h3>
+            <p>Simple, fast, and optimized for Android.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 Nix Swahili Corp • Download on Google Play
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    new Swiper('.swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 10,
+      pagination: { el: '.swiper-pagination', clickable: true }
+    });
+
+    (function () {
+      const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.nixswahili.app';
+      const APP_STORE_URL = ''; // put your iPhone App Store link here if you have one
+      const DESKTOP_FALLBACK_URL = window.location.origin + window.location.pathname + '?no_redirect=1';
+
+      const overlay = document.getElementById('redirectOverlay');
+      const redirectText = document.getElementById('redirectText');
+      const manualStoreBtn = document.getElementById('manualStoreBtn');
+      const stayOnSiteBtn = document.getElementById('stayOnSiteBtn');
+
+      const params = new URLSearchParams(window.location.search);
+      const noRedirect = params.get('no_redirect') === '1';
+
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isAndroid = /android/i.test(ua);
+      const isIOS = /iPhone|iPad|iPod/i.test(ua);
+      const isInstagramBrowser = /Instagram/i.test(ua);
+      const isFacebookBrowser = /FBAN|FBAV/i.test(ua);
+
+      manualStoreBtn.href = isIOS && APP_STORE_URL ? APP_STORE_URL : PLAY_STORE_URL;
+
+      stayOnSiteBtn.addEventListener('click', function () {
+        overlay.classList.add('hidden');
+      });
+
+      if (noRedirect) {
+        overlay.classList.add('hidden');
+        return;
+      }
+
+      if (!isAndroid && !isIOS) {
+        redirectText.textContent = 'Explore the app below or open the store manually.';
+        return;
+      }
+
+      if (isIOS && !APP_STORE_URL) {
+        redirectText.textContent = 'Store link not configured for iPhone. Use the website below.';
+        return;
+      }
+
+      let redirectDelay = 900;
+
+      if (isInstagramBrowser || isFacebookBrowser) {
+        redirectDelay = 1100;
+      }
+
+      if (isAndroid) {
+        redirectText.textContent = 'Redirecting to Google Play...';
+      } else if (isIOS) {
+        redirectText.textContent = 'Redirecting to the App Store...';
+      }
+
+      setTimeout(function () {
+        if (isAndroid) {
+          window.location.href = PLAY_STORE_URL;
+        } else if (isIOS && APP_STORE_URL) {
+          window.location.href = APP_STORE_URL;
+        } else {
+          window.location.href = DESKTOP_FALLBACK_URL;
+        }
+      }, redirectDelay);
+
+      setTimeout(function () {
+        overlay.classList.add('hidden');
+      }, 3200);
+    })();
+  </script>
 
 </body>
 </html>
